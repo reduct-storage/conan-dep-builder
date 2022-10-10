@@ -16,7 +16,7 @@ jobs:
     runs-on: macos-12
     strategy:
       matrix:
-        build: [Release, Debug]
+        build: [ Release, Debug ]
     steps:
       - uses: actions/checkout@v2
       - name: Select Xcode 13.4
@@ -29,18 +29,21 @@ jobs:
       - name: Get list of dependencies
         run: wget https://raw.githubusercontent.com/reduct-storage/reduct-storage/main/conanfile.txt
       - name: Build and install
-        run:  conan install . --build=* -s build_type=${{ matrix.build }}
+        run: conan install . --build=* -s build_type=${{ matrix.build }}
       - name: Register in Conan Repo
         run: |
           conan remote add reduct https://reductstorage.jfrog.io/artifactory/api/conan/default-conan-local
           conan user -p ${{ secrets.CONAN_TOKEN }} -r reduct ${{ secrets.CONAN_USER }}
       - name: Upload packages
-        run:  cat ../reduct-storage/conanfile.txt  | grep -e "/" | xargs -n 1 conan upload -c -r reduct --all
+        run: cat ../reduct-storage/conanfile.txt  | grep -e "/" | xargs -n 1 conan upload -c -r reduct --all
 
 
   build_and_upload_windows:
     name: Build for Windows
     runs-on: windows-2019
+    strategy:
+      matrix:
+        build: [ Release, Debug ]
     steps:
       - uses: actions/checkout@v2
       - name: Update windows SDK
@@ -54,7 +57,7 @@ jobs:
       - name: Get list of dependencies
         run: wget https://raw.githubusercontent.com/reduct-storage/reduct-storage/main/conanfile.txt
       - name: Build and install
-        run:  conan install . --build=* -s build_type=${{ matrix.build }}
+        run: conan install . --build=* -s build_type=${{ matrix.build }}
       - name: Register in Conan Repo
         run: |
           conan remote add reduct https://reductstorage.jfrog.io/artifactory/api/conan/default-conan-local
