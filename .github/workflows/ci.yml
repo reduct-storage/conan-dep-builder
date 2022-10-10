@@ -29,7 +29,7 @@ jobs:
       - name: Get list of dependencies
         run: wget https://raw.githubusercontent.com/reduct-storage/reduct-storage/main/conanfile.txt
       - name: Build and install
-        run:  conan install . --build=* -s compiler.libcxx=libstdc++11 -s build_type=${{ matrix.build }}
+        run:  conan install . --build=* -s compiler.libcxx=libstdc++ -s build_type=${{ matrix.build }}
       - name: Register in Conan Repo
         run: |
           conan remote add reduct https://reductstorage.jfrog.io/artifactory/api/conan/default-conan-local
