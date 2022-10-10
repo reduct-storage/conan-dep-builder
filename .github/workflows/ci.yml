@@ -35,7 +35,7 @@ jobs:
           conan remote add reduct https://reductstorage.jfrog.io/artifactory/api/conan/default-conan-local
           conan user -p ${{ secrets.CONAN_TOKEN }} -r reduct ${{ secrets.CONAN_USER }}
       - name: Upload packages
-        run: cat conanfile.txt  | grep -e "/" | xargs -n 1 conan upload -c -r reduct --all
+        run: conan info  . --only "None" | xargs -n 1 conan upload -c -r reduct --all
 
 
   build_and_upload_windows:
@@ -65,4 +65,4 @@ jobs:
           conan user -p ${{ secrets.CONAN_TOKEN }} -r reduct ${{ secrets.CONAN_USER }}
       - name: Upload packages
         shell: bash
-        run: cat conanfile.txt  | grep -e "/" | xargs -n 1 conan upload -c -r reduct --all
+        run: conan info  . --only "None" | xargs -n 1 conan upload -c -r reduct --all
