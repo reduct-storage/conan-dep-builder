@@ -30,10 +30,10 @@ jobs:
         run: |
           curl -o conanfile.txt https://raw.githubusercontent.com/reduct-storage/reduct-storage/main/conanfile.txt
           curl -o profile.txt https://raw.githubusercontent.com/reduct-storage/reduct-storage/speed-up-ci/conan/macos_amd64.profile 
-          conan info  . -pr profile.tx
+          conan info  . -pr profile.txt
 
       - name: Build and install
-        run: CC=gcc-11 CXX=g++-11 conan install . --build=* -s build_type=${{ matrix.build }} -pr profile.tx
+        run: CC=gcc-11 CXX=g++-11 conan install . --build=* -s build_type=${{ matrix.build }} -pr profile.txt
       - name: Register in Conan Repo
         run: |
           conan remote add reduct https://reductstorage.jfrog.io/artifactory/api/conan/default-conan-local
