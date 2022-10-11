@@ -27,13 +27,13 @@ jobs:
           pip3 install conan
           brew install gcc@11
       - name: Get list of dependencies and profile
-        run: | 
+        run: |
           curl -o conanfile.txt https://raw.githubusercontent.com/reduct-storage/reduct-storage/main/conanfile.txt
-          conan info  .
-          curl -o conanfile.txt https://raw.githubusercontent.com/reduct-storage/reduct-storage/speed-up-ci/conan/macos_amd64.profile 
+          curl -o profile.txt https://raw.githubusercontent.com/reduct-storage/reduct-storage/speed-up-ci/conan/macos_amd64.profile 
+          conan info  . -pr profile.tx
 
       - name: Build and install
-        run: CC=gcc-11 CXX=g++-11 conan install . --build=* -s build_type=${{ matrix.build }} -pr macos_amd64.profile
+        run: CC=gcc-11 CXX=g++-11 conan install . --build=* -s build_type=${{ matrix.build }} -pr profile.tx
       - name: Register in Conan Repo
         run: |
           conan remote add reduct https://reductstorage.jfrog.io/artifactory/api/conan/default-conan-local
@@ -60,7 +60,7 @@ jobs:
           pip3 install conan
       - name: Get list of dependencies
         shell: bash
-        run: | 
+        run: |
           curl -o conanfile.txt https://raw.githubusercontent.com/reduct-storage/reduct-storage/main/conanfile.txt
           conan info  .
       - name: Build and install
